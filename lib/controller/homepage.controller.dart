@@ -32,11 +32,17 @@ abstract class homepageController extends GetxController {
   changeTypes(String val);
   goToApplay(data);
   save();
+
+  getNotificationNumber();
+  getNotification();
 }
 
 class homepageControllerImp extends homepageController {
   int currentPage = 0;
   int featureSize = 0;
+  int notificationSize = 0;
+  int allNotificationSize = 0;
+  var allNotification = [];
   late statusRequest homeStatusRequest = statusRequest.static;
   var Feature = [];
   var Recommended = [];
@@ -49,6 +55,7 @@ class homepageControllerImp extends homepageController {
   userInfo userData = userInfo();
   bool first = false;
   bool change = false;
+  bool notificationEnter = false;
   late TextEditingController search;
 
   late statusRequest jobStatusRequest = statusRequest.static;
@@ -58,6 +65,8 @@ class homepageControllerImp extends homepageController {
   late statusRequest companyStatusRequest = statusRequest.static;
   late statusRequest saveStatusRequest = statusRequest.static;
   ScrollController scroll = ScrollController();
+  ScrollController notificationScroll = ScrollController();
+
   List jobTitles = [
     {"id": "0", "title": "Job Title"}
   ];
@@ -91,8 +100,33 @@ class homepageControllerImp extends homepageController {
 
   @override
   toDashboard() {
-    // TODO: implement toDashboard
     Get.offNamed(AppRoute.dashboard);
+    update();
+  }
+
+  @override
+  getNotificationNumber() async {
+    var response = await HomeRemote.notificationNumber();
+    notificationSize = response["data"]["size"];
+    if (notificationSize == 0) {
+      notificationEnter = true;
+    }
+    update();
+  }
+
+  @override
+  getNotification() async {
+    saveStatusRequest = statusRequest.loading;
+    var response = await HomeRemote.getNotification(
+        allNotificationSize, allNotification.length);
+    saveStatusRequest = await handleingReposnr(response);
+
+    print("-----------------------------------");
+    print(response);
+    allNotificationSize = response["data"]["size"];
+    allNotification = response["data"]["notification"];
+    notificationEnter = true;
+
     update();
   }
 
@@ -295,12 +329,10 @@ class homepageControllerImp extends homepageController {
     update();
   }
 
-  @override
   savedJobs() async {
     var response = await HomeRemote.saved();
     print(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
     Saved.addAll(response["data"]["savedJobs"]);
-
     update();
   }
 
@@ -324,6 +356,25 @@ class homepageControllerImp extends homepageController {
           scrollStatusRequest != statusRequest.loading) {
         scrollStatusRequest = statusRequest.loading;
         await FeatureJobs();
+        scrollStatusRequest = statusRequest.static;
+        update();
+      }
+    });
+  }
+
+  notificationScrollListener() {
+    notificationScroll.addListener(() async {
+      if (((notificationScroll.offset /
+                      notificationScroll.position.maxScrollExtent) *
+                  100) <=
+              80.0 &&
+          !notificationScroll.position.outOfRange &&
+          featureSize != Feature.length &&
+          scrollStatusRequest != statusRequest.loading) {
+        scrollStatusRequest = statusRequest.loading;
+        if (allNotificationSize > allNotification.length) {
+          await getNotification();
+        }
         scrollStatusRequest = statusRequest.static;
         update();
       }
@@ -367,9 +418,12 @@ class homepageControllerImp extends homepageController {
     RecommendedJobs();
     getJobTitle();
     savedJobs();
-    getcompany(); // TODO: implement onInit
+    getcompany();
+    getNotificationNumber();
+    getNotification();
     search = TextEditingController();
     scrollListener();
+    notificationScrollListener();
     super.onInit();
   }
 

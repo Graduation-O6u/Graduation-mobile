@@ -1,6 +1,5 @@
 class links {
-  static const String server =
-      "https://graduation-backend-production.up.railway.app";
+  static const String server = "https://jobb-45md.onrender.com";
 
   /*=================Auth ================*/
   static const String login = "$server/auth/signin";
@@ -25,6 +24,11 @@ class links {
   static const String bookmark = "$server/job";
   static const String search = "$server/job/search";
 
-  /*=================jobs ================*/
+  /*=================user ================*/
+  static const String editImage = "$server/user/profileImage";
   static const String editUser = "$server/user";
+
+  /*=================notification ================*/
+  static const String notificationNumber = "$server/notification/unReadNumber";
+  static const String notification = "$server/notification/all";
 }

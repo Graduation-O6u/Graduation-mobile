@@ -92,7 +92,6 @@ class EditUserImp extends EditUser {
       cityId,
       jobId,
       cv,
-      userData.image!,
     );
     userStatusRequest = await handleingReposnr(response);
 
@@ -129,7 +128,6 @@ class EditUserImp extends EditUser {
           github: github.text,
           behance: behance.text,
           cv: cv,
-          followers: userData.followers,
         ));
 // Save an integer value to 'counter' key.
       }

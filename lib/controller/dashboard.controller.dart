@@ -55,14 +55,7 @@ class dashboardImp extends dashboard {
 
     img = response.data["url"];
     final prefs = await SharedPreferences.getInstance();
-    await DashboardRemote.editData(
-      userData.name!,
-      userData.github!,
-      userData.behance!,
-      userData.about!,
-      userData.cityId!,
-      userData.jobId!,
-      userData.cv!,
+    await DashboardRemote.editImage(
       img,
     );
 // Save an integer value to 'counter' key.
@@ -83,7 +76,6 @@ class dashboardImp extends dashboard {
       github: userData.github,
       behance: userData.behance,
       cv: userData.cv,
-      followers: userData.followers,
     ));
     update();
   }

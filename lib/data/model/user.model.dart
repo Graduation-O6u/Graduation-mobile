@@ -4,7 +4,6 @@ class userInfo {
   final String? name;
   final String? subTitle;
   final String? createdAt;
-  final String? followers;
   final String? image;
   final String? accessToken;
   final String? about;
@@ -25,7 +24,6 @@ class userInfo {
       this.subTitle,
       this.accessToken,
       this.createdAt,
-      this.followers,
       this.about,
       this.city,
       this.cityId,
@@ -42,7 +40,6 @@ class userInfo {
         name: json['name'],
         image: json['image'],
         createdAt: json['createdAt'],
-        followers: json['followers'],
         subTitle: json["subTitle"],
         accessToken: json['accessToken'],
         refreshToken: json['refreshToken'],
@@ -69,7 +66,6 @@ class userInfo {
       'about': about,
       'subTitle': subTitle,
       'createdAt': createdAt,
-      'followers': followers,
       'accessToken': accessToken,
       'refreshToken': refreshToken,
       'github': github,

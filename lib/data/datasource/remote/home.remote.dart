@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:MyCareer/core/class/crud.class.dart';
 import 'package:MyCareer/core/constatnt/links.dart';
 import 'package:MyCareer/data/model/sharedPrefrence.dart';
@@ -15,17 +17,21 @@ class homeRemote {
 
   saved() async {
     await getUserData();
-
+    print("|89898898889898989");
     var response = await Crud.getTokenData(links.savedJobs, token);
+    print(response);
     return response.fold((l) => l, (r) => r);
   }
 
   featureJobs(take) async {
+    print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+
     await getUserData();
+    print("|89898898889898989");
 
     var response =
         await Crud.getTokenData("${links.featureJobs}&skip=$take", token);
-
+    print(response);
     return response.fold((l) => l, (r) => r);
   }
 
@@ -42,6 +48,7 @@ class homeRemote {
   recommendedJobs(take) async {
     await getUserData();
     var response = await Crud.getTokenData(links.recommendedJobs, token);
+
     return response.fold((l) => l, (r) => r);
   }
 
@@ -72,6 +79,21 @@ class homeRemote {
   save(String link) async {
     await getUserData();
     var response = await Crud.getTokenData(link, token);
+    return response.fold((l) => l, (r) => r);
+  }
+
+  notificationNumber() async {
+    await getUserData();
+    var response = await Crud.getTokenData(links.notificationNumber, token);
+    return response.fold((l) => l, (r) => r);
+  }
+
+  getNotification(size, sizeNow) async {
+    await getUserData();
+    int theReminder = size - sizeNow;
+    var response = await Crud.getTokenData(
+        "${links.notification}?take=${min(theReminder, 10)}&skip=${sizeNow}",
+        token);
     return response.fold((l) => l, (r) => r);
   }
 }

@@ -98,7 +98,7 @@ class dashboard extends StatelessWidget {
                                 size: 40,
                               )),
                           personInformation(
-                              title1: controller.userData.followers.toString(),
+                              title1: controller.userData.view.toString(),
                               title2: "Views",
                               icon: const Icon(
                                 Icons.group,

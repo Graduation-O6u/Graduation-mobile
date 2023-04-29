@@ -100,8 +100,6 @@ class loginControllerImp extends loginController {
           github: response["data"]["user"]["github"],
           behance: response["data"]["user"]["behance"],
           cv: response["data"]["user"]["cv"],
-          followers:
-              response["data"]["user"]["_count"]["userFollow"].toString(),
         ));
 
         Get.offAllNamed(AppRoute.homepage);

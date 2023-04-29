@@ -78,7 +78,15 @@ class profile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          controller.userData.name.toString().split(" ")[0],
+                          controller.userData.name
+                                      .toString()
+                                      .split(" ")
+                                      .length >
+                                  0
+                              ? controller.userData.name
+                                  .toString()
+                                  .split(" ")[0]
+                              : controller.userData.name.toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: controller.userData.name
@@ -92,16 +100,11 @@ class profile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          controller.userData.name
-                                  .toString()
-                                  .split(" ")
-                                  .isNotEmpty
+                          controller.userData.name.toString().contains(" ")
                               ? controller.userData.name
                                   .toString()
                                   .split(" ")[1]
-                              : controller.userData.name
-                                  .toString()
-                                  .split(" ")[0],
+                              : "",
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: controller.userData.name
@@ -135,7 +138,7 @@ class profile extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "${controller.userData.followers} \nViews",
+                            "${controller.userData.view} \nViews",
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,

@@ -1,46 +1,64 @@
+import 'package:MyCareer/controller/homepage.controller.dart';
 import 'package:MyCareer/core/constatnt/colors.dart';
+import 'package:MyCareer/core/function/calcDate.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class notifications extends StatelessWidget {
   const notifications({super.key});
 
   @override
   Widget build(BuildContext context) {
+    homepageControllerImp controller = Get.put(homepageControllerImp());
+    controller.notificationSize = 0;
     return SafeArea(
-      child: Container(
-          child: ListView.builder(
-        itemCount: 15,
-        itemBuilder: (context, index) => GestureDetector(
-          onTap: () {},
-          child: Card(
-            color: index < 4 ? Colors.blue[50] : Colors.white,
-            child: ListTile(
-              leading: Image.network(
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSz6smg3FpheR3jUeFez5EZ5dqSImfpv9fJMEcI1ZUpXQ_TCQV5tKcN0b_OdQAgrbyafD4&usqp=CAU",
-                width: 40,
-              ),
-              trailing: Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: index < 4 ? Colors.red : app_colors.secondText,
-                ),
-              ),
-              subtitle: Text("Monday 21 | 11:05"),
-              title: Row(
-                children: [
-                  Text(
-                    "Microsoft",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+        child: controller.allNotificationSize > 0
+            ? Container(
+                child: ListView.builder(
+                itemCount: controller.allNotification.length,
+                controller: controller.notificationScroll,
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {},
+                  child: Card(
+                    color: !controller.allNotification[index]["read"]
+                        ? Colors.blue[50]
+                        : Colors.white,
+                    child: ListTile(
+                      leading: Image.network(
+                        controller.allNotification[index]["company"]["image"],
+                        width: 40,
+                      ),
+                      trailing: Container(
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: !controller.allNotification[index]["read"]
+                              ? Colors.red
+                              : app_colors.secondText,
+                        ),
+                      ),
+                      subtitle: Text(
+                          controller.allNotification[index]["description"]),
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            controller.allNotification[index]["company"]
+                                ["name"],
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            calcDate(
+                                controller.allNotification[index]["createdAt"]),
+                            style: TextStyle(fontSize: 11, color: Colors.grey),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                  Text(" Posted A New Job")
-                ],
-              ),
-            ),
-          ),
-        ),
-      )),
-    );
+                ),
+              ))
+            : Center(child: Text("There isnot Notification for you till now")));
   }
 }

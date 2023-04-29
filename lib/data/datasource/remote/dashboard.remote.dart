@@ -14,7 +14,7 @@ class dashboardRemote {
   }
 
   editData(String name, String github, String behance, String about,
-      String cityId, String jobId, String cv, String img) async {
+      String cityId, String jobId, String cv) async {
     await getUserData();
 
     var response = await Crud.editTokenData(links.editUser, token, {
@@ -25,6 +25,14 @@ class dashboardRemote {
       "cityId": cityId,
       "jobId": jobId,
       "cv": cv,
+    });
+    return response.fold((l) => l, (r) => r);
+  }
+
+  editImage(String img) async {
+    await getUserData();
+
+    var response = await Crud.editTokenData(links.editImage, token, {
       "image": img,
     });
     return response.fold((l) => l, (r) => r);

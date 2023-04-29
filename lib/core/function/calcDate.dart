@@ -22,8 +22,6 @@ int getDaysInMonth(int year, int month) {
 }
 
 calcDate(String date) {
-  print("]]]]]]]]]]]]]");
-  print(date);
   String hour = date.split("T")[1].split(":")[0];
   print(hour);
 
@@ -77,24 +75,31 @@ calcDate(String date) {
       year3++;
     }
   }
+  print("${year3}, ${mon3}, ${day3}, ${hour3}, ${now.minute}");
   DateTime now2 = DateTime(year3, mon3, day3, hour3, now.minute);
   Duration diff = now2.difference(yourDate);
   print((diff.inHours).toInt());
-  print((diff.inHours).toInt());
+  print((diff.inDays).toInt() ~/ 365);
 
   if (diff.inDays > 0) {
-    if (diff.inDays / 365 != 0) {
+    if (diff.inDays ~/ 365 != 0) {
       if (diff.inDays ~/ 365 == 1) {
         return "${diff.inDays ~/ 365}  year ago";
       } else {
         return "${diff.inDays ~/ 365}  years ago";
       }
-    }
-  } else if (diff.inDays ~/ 30 != 0) {
-    if (diff.inDays ~/ 30 == 1) {
-      return "${diff.inDays ~/ 30}  mon ago";
-    } else {
-      return "${diff.inDays ~/ 30}  mons ago";
+    } else if (diff.inDays.toInt() ~/ 30 != 0) {
+      if (diff.inDays ~/ 30 == 1) {
+        return "${diff.inDays ~/ 30}  mon ago";
+      } else {
+        return "${diff.inDays ~/ 30}  mons ago";
+      }
+    } else if (diff.inDays ~/ 7 != 0) {
+      if ((diff.inDays).toInt() ~/ 7 == 1) {
+        return "1 week ago";
+      } else {
+        return "${(diff.inDays).toInt() ~/ 7}  weeks ago";
+      }
     }
   } else if ((diff.inHours).toInt() != 0) {
     if (diff.inHours == 1) {

@@ -16,6 +16,7 @@ class homepage extends StatelessWidget {
     jobs(),
     profile(),
   ];
+
   homepage({super.key});
 
   @override
@@ -25,13 +26,39 @@ class homepage extends StatelessWidget {
       builder: (controller) => Scaffold(
         resizeToAvoidBottomInset: false,
         bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_none_sharp),
+              icon: Stack(children: [
+                Icon(Icons.notifications_none),
+                controller.notificationSize != 0
+                    ? Positioned(
+                        right: 0,
+                        child: Container(
+                          padding: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          constraints: BoxConstraints(
+                            minWidth: 12,
+                            minHeight: 12,
+                          ),
+                          child: Text(
+                            '1',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 8,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    : Text(""),
+              ]),
               label: 'Notification',
             ),
             BottomNavigationBarItem(
@@ -47,6 +74,7 @@ class homepage extends StatelessWidget {
           unselectedItemColor: app_colors.secondText,
           selectedItemColor: app_colors.primaryColor,
           onTap: (value) => controller.changePage(value),
+          iconSize: 30,
         ),
         body: GetBuilder<homepageControllerImp>(
           builder: (controller) {

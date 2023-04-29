@@ -21,6 +21,8 @@ class preference {
     List<userInfo> list = [];
     final prefs = await SharedPreferences.getInstance();
     List<String>? listPref = prefs.getStringList("userData");
+    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    print(listPref);
     if (listPref == null) {
       list = list;
     } else {
